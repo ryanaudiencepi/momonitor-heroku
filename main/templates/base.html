@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico">
+    <script src="{{STATIC_URL}}js/jquery.min.js"></script>
+    <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+    <script src="{{STATIC_URL}}js/jquery.sortElements.js"></script>
+    <script src="{{STATIC_URL}}js/highcharts.js"></script>
+    <script src="{{STATIC_URL}}js/highcharts-more.js"></script>
+    
+    {% block extrahead %}
+    {% endblock %}
+    <link href="{{STATIC_URL}}css/momonitor.css" type="text/css" rel="stylesheet" />
+    <script src="{{STATIC_URL}}js/momonitoring.js"></script>
+  </head>
+  
+  <body>
+    <div id="momonitor-container">
+      <div class="container">
+	{% if request.breadcrumbs %}
+	<ul class="breadcrumb">
+	  {% for breadcrumb in request.breadcrumbs %}
+	  <li><a href="{{breadcrumb.url}}">{{breadcrumb.name}}</a>{% if not forloop.last %} <span class="divider">/</span></li> {% endif %} 
+	  {% endfor %}
+	</ul>
+	{% endif %}
+	{% if messages %}
+	{% for message in messages %}
+	<div class="alert {{message.tags}}">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  {{message}}
+	</div>
+	{% endfor %}
+	{% endif %}
+	{% block body %}
+	{% endblock %}
+      </div>
+    </div>
+    {% block footer %}
+    <hr />
+    <footer class="footer">
+      <div class="container">
+	<center>
+	  <a href="{% url main:index %}">Go back home</a>
+	</center>
+      </div>
+    </footer>
+    {% endblock %}
+    {% block extrabody %}
+    {% endblock %}
+
+  </body>
+
+</html>

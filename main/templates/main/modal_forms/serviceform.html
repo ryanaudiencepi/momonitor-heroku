@@ -1,0 +1,31 @@
+{% extends "main/modal_forms/base.html" %}
+
+{% block form_body %}
+<fieldset>
+  <legend class="modal-section-header">Basic</legend>
+  <div class="pull-left half">
+    <label>Name</label>
+    {{form.name}}
+    <label>Alert Type</label>
+    {{form.alert_type}}    
+  </div>
+  <div class="pull-right half">
+    <label class="checkbox">{{form.silenced}} Silenced</label>
+    <label>PagerDuty Key (for pagerduty alert)</label>
+    {{form.pagerduty_key}}
+    <label>Email Contact (for email alert)</label>
+    {{form.email_contact}}    
+  </div>
+  <div class="clearfix"></div>
+  <legend class="modal-section-header">Advanced</legend>
+  <div id="advanced-settings">
+    <label>Frequency</label>
+    {{form.frequency}}
+    <label>Failures Before Alert</label>
+    {{form.failures_before_alert}}
+    <label>Umpire Range (s)</label>
+    {{form.umpire_range}}
+  </div>
+</fieldset>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+*pyc
+*~
+*#
+myenv
+local_settings.py
+dump.rdb
+test_data.json
+docs/_build
+media/*
+test_settings.py
+\.DS_STORE

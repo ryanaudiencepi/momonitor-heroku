@@ -1,0 +1,16 @@
+{% extends "mobile/base.html" %}
+
+{% block body %}
+<div data-role="page" data-theme="a">
+  <div data-role="header" data-position="inline">
+    <h1>Momonitor</h1>
+  </div>
+  <div data-role="content" data-theme="a">
+    <ul data-role="listview">
+      {% for service in services %}
+      <li><a href="{% url mobile:service service.id %}">{{service.name}} <span class="ui-li-count">{{service.all_counts}}</span></a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

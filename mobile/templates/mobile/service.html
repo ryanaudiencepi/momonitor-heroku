@@ -1,0 +1,51 @@
+{% extends "mobile/base.html" %}
+{% load momonitor_tags %}
+
+{% block body %}
+<div data-role="page" data-theme="a">
+  <div data-role="header" data-position="inline">
+    <h1>Service Checks <small>{{service.name}} {% if service.silenced %}(silenced){% endif %}</small></h1>
+    <a href="{% url mobile:index %}" class="ui-btn-left">Back</a>
+    <a href="{% url main:silence service.resource_name service.id %}" class="ajaxify ui-btn-right">
+      {% if service.silenced %}Unsilence{% else %}Silence{% endif %}
+    </a>
+  </div>
+  <div data-role="content" data-theme="a">
+    <ul data-role="listview">
+      <li data-role="list-divider">Simple Checks <span class="ui-li-count">{{service.simple_counts}}</span></a></li></li>
+      {% for check in service.simpleservicecheck.all %}
+      <li><a href="{% url mobile:check 'simpleservicecheck' check.id %}">	  
+	  <img src="{{check.status|to_status_png}}" class="ui-li-icon ui-li-thumb" />
+	  {{check.name}}</a>
+      </li>
+      {% endfor %}
+
+      <li data-role="list-divider">Umpire Checks <span class="ui-li-count">{{service.umpire_counts}}</span></a></li></li>
+      {% for check in service.umpireservicecheck.all %}
+      <li><a href="{% url mobile:check 'umpireservicecheck' check.id %}">	  
+	  <img src="{{check.status|to_status_png}}" class="ui-li-icon ui-li-thumb" />
+	  {{check.name}}</a>
+      </li>
+      {% endfor %}
+
+      <li data-role="list-divider">Compare Checks <span class="ui-li-count">{{service.compare_counts}}</span></a></li></li>
+      {% for check in service.compareservicecheck.all %}
+      <li><a href="{% url mobile:check 'compareservicecheck' check.id %}">
+	  <img src="{{check.status|to_status_png}}" class="ui-li-icon ui-li-thumb" />
+	  {{check.name}}</a>
+      </li>
+      {% endfor %}
+
+      <li data-role="list-divider">Code Checks <span class="ui-li-count">{{service.code_counts}}</span></a></li></li>
+      {% for check in service.codeservicecheck.all %}
+      <li><a href="{% url mobile:check 'codeservicecheck' check.id %}">
+	  <img src="{{check.status|to_status_png}}" class="ui-li-icon ui-li-thumb" />
+	  {{check.name}}</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

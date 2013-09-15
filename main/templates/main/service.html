@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+{% load momonitor_tags %}
+
+{% block body %}
+<div class="page-header">
+  <div class="btn-group pull-right">
+    <a class="btn ajaxify tooltipped" data-title="Run Checks" href="{% url main:refresh 'service' service.id %}" class="btn"><i class="icon-refresh"></i></a>
+  </div>
+  <h1>Service Checks <small>{{service.name}} {% if service.silenced %}(silenced){% endif %}</small></h1>
+</div>
+{% for check_cls,service_checks in check_map.items|sort_checks %}
+  {% include check_cls.resource_table_template %}
+  <hr />
+{% endfor %}
+
+{% endblock %}
