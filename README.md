@@ -15,7 +15,7 @@ Using heroku, we can easily seperate these 3 components scale up accordingly. We
 
 
 You can add user:password for graphite's url authentication under environment config GRAPHITE_USER and GRAPHITE_API.
-If there's no authentication, you can leave it as it is. We use aws for serving static files.
+If there is no authentication, you can skip this step. We use aws for serving static files.
 
 
     heroku create
