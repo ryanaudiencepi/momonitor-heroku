@@ -11,7 +11,8 @@ Why Heroku
 -------------
 
 Deployment is fast and easy. Momonitor consists of the web app, the scheduler and also the service checks. 
-Using heroku, we can easily seperate these 3 components scale up accordingly. 
+Using heroku, we can easily seperate these 3 components scale up accordingly. We use clock as scheduler for service checks. Worker runs service check jobs with [RQ](https://github.com/nvie/rq). 
+
 
 You can add user:password for graphite's url authentication under environment config GRAPHITE_USER and GRAPHITE_API.
 If there's no authentication, you can leave it as it is. We use aws for serving static files.
