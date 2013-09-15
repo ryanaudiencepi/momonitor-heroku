@@ -1,5 +1,5 @@
 from gevent import monkey
-monkey.patch_all()
+monkey.patch_all(thread=False)
 from gevent.pool import Pool
 
 from django.core.management.base import BaseCommand, CommandError

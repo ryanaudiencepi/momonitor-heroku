@@ -26,6 +26,8 @@ class ServiceCheckForm(forms.ModelForm):
             self.fields['endpoint'].widget.attrs['placeholder'] = "http://example.org"
         if self.fields.has_key("timeout"):
             self.fields['timeout'].widget.attrs['placeholder'] = "i.e. 100"
+        if self.fields.has_key("graphite_range"):
+            self.fields['graphite_range'].widget.attrs['placeholder'] = "secs"
         
 
 

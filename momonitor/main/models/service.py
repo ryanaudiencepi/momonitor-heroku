@@ -1,14 +1,21 @@
 import logging
-from django.db import models
+import json
 import itertools
+import requests
+from smtplib import SMTPException
+from django.conf import settings
+from django.db import models
+from django.core.mail import send_mail
+from django.template import RequestContext, loader, Context
+from django.core.urlresolvers import reverse
 from momonitor.main.models.base import BaseModel
 from momonitor.main.constants import (STATUS_UNKNOWN,
                                       STATUS_GOOD,
                                       STATUS_WARNING,
                                       ALERT_CHOICES,
                                       STATUS_BAD)
-import requests
 
+                                      
 class Service(BaseModel):
     class Meta:
         app_label="main"
@@ -77,12 +84,12 @@ class Service(BaseModel):
         if not self.email_contact:
             logging.warning("No email contact for service %s" % self.name)
         try:
-            email_msg = get_template("alert_email.txt").render(
+            email_msg = loader.get_template("alert_email.txt").render(
                 Context({"description":description,
                          "service_name":self.name,
                          "url":"%s%s" % (settings.DOMAIN,
                                          reverse("main:service",kwargs={'service_id':self.id}))
-                         if settings.hasattr("DOMAIN") and settings.DOMAIN  else ""
+                         if hasattr(settings, "DOMAIN") and settings.DOMAIN  else ""
                              
                          })
                 )

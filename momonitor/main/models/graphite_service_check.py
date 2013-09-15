@@ -17,7 +17,7 @@ class GraphiteServiceCheck(ServiceCheck):
     class Meta:
         app_label="main"
 
-    graphite_range = models.IntegerField(default=300)
+    graphite_range = models.IntegerField()
     graphite_metric = models.CharField(max_length=256)
     graphite_lower_bound = models.FloatField()
     graphite_upper_bound = models.FloatField()
@@ -30,12 +30,12 @@ class GraphiteServiceCheck(ServiceCheck):
         value = None
         status = STATUS_UNKNOWN
 
-        
+    
         try:
             res = requests.get("%s/render/?target=%s&from=-%ss&rawData=true" % (
                     settings.GRAPHITE_ENDPOINT,
                     self.graphite_metric,
-                    self.graphite_range))
+                    self.graphite_range), auth=(settings.GRAPHITE_USER, settings.GRAPHITE_API))
 
             if res.status_code!=200:
                 self.set_state(status=STATUS_UNKNOWN,last_value="Graphite returned a non-200 code")
@@ -64,3 +64,14 @@ class GraphiteServiceCheck(ServiceCheck):
 
 
         self.set_state(status=status,last_value=average_value)
+
+    def status_progress(self):
+        if self.graphite_upper_bound-self.graphite_lower_bound == 0:
+            return 0
+        return max(
+            min(
+                (self.last_value-self.graphite_lower_bound) / (self.graphite_upper_bound-self.graphite_lower_bound),
+                1
+                ),
+            0
+            )*100

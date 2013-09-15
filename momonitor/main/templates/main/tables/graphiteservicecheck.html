@@ -12,9 +12,8 @@
 <table id="graphitetable" class="table table-hover table-bordered table-sortable">
   <thead>
     <th>Name</th>
-    <th>Metric</th>
-    <th>Lower Bound</th>
-    <th>Upper Bound</th>
+    <th>Status</th>
+    <th>Last Updated</th>
   </thead>
   <tbody>
     {% if service_checks.count %}
@@ -28,12 +27,21 @@
 	<a class="delete" href="{{check|resource_url}}">
 	  <i class="icon-remove"></i>
 	</a>
+	{% if GRAPHITE_ENDPOINT %}
 	<a class="modalize" data-type="image" href="{{check.graphite_url}}">
-	  <i class="icon-eye"></i>
+	  <i class="icon-signal"></i>
 	</a>
+	{% endif %}
       </td>
-      <td width="30%"><span class="tooltipped" data-title="{{check.endpoint}}">{{check.endpoint|truncatechars:30}}</span></td>
-      <td width="15%">{% if check.timeout %}{{check.timeout}}{% else %}n/a{% endif %}</td>
+      <td width="45%">
+	<span class="hide">{{check.status}}</span>
+	<div class="progress tooltipped" rel="tooltip" data-title="{% if check.last_value == 0 %}zero{% else %}{{check.last_value}}{% endif %}" data-placement="top" >
+	  <div class="bar {{check.status|to_bootstrap_progressbarclass}}" style="width: {{check.status_progress}}%;"></div>
+	</div>
+	<small class="pull-left muted">{{check.graphite_lower_bound}}</small>
+	<small class="pull-right muted">{{check.graphite_upper_bound}}</small>
+	<div class="clearfix"></div>
+      </td>
       <td width="25%">{{check.last_updated|since}}
 	<a class="ajaxify" href="{% url main:refresh check_cls.resource_name check.id %}">
 	  <i class="icon-refresh"></i>

@@ -207,7 +207,7 @@ class UmpireServiceCheck(ServiceCheck):
                               urllib.urlencode(get_parameters))
 
         try:
-            res = requests.get(endpoint)
+            res = requests.get(endpoint, auth=(settings.UMPIRE_USER, settings.UMPIRE_API))
             res_data = res.json()
             if res.status_code == 200:                
                 value = res_data['value']
