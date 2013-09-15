@@ -5,7 +5,7 @@ Please see the following links to understand how Momonitor works.
 * [Momonitor Main Project](https://github.com/mopub/momonitor)
 * [Momonitor Guide](http://mopub.github.io/momonitor/)
 
-This is a fork to deploy Momonitor in Heroku.
+This is a fork from [Momonitor](https://github.com/mopub/momonitor) to deploy Momonitor in Heroku.
 
 Why Heroku
 -------------
